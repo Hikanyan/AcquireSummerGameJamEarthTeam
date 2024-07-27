@@ -112,29 +112,3 @@ namespace Hoge
 ## クラス設計
 
 ## シーン遷移
-![img.png](img.png)
-```mermaid
-graph TD
-    subgraph VContainer設計
-        LootLifeTimeScope["LootLifeTimeScope"]
-        TileScope["TileScope"]
-        LobbyScope["LobbyScope"]
-        InGameScope["InGameScope"]
-        ResultScope["ResultScope"]
-    end
-    
-    ManagerSceneLoader["Manager Scene Loader"] --> |自動ロード| ManagerScene["マネージャーシーン"]
-    TitleScene["タイトルシーン"] --> |初期化| ManagerSceneLoader
-    BattleScene["バトルシーン"] --> |初期化| ManagerSceneLoader
-    ManagerScene --> LootLifeTimeScope
-    ManagerScene --> TileScope
-    ManagerScene --> LobbyScope
-    ManagerScene --> InGameScope
-    ManagerScene --> ResultScope
-    
-    note1["どのシーンからも起動できるので、テストプレイが楽"]
-    note2["マネージャーシーンを1度だけ自動でロードする"]
-
-    note1 --> ManagerSceneLoader
-    note2 --> ManagerScene
-```
