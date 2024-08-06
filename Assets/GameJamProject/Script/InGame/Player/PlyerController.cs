@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class PlyerController : MonoBehaviour
@@ -34,5 +31,14 @@ public class PlyerController : MonoBehaviour
         currentPos.x = Mathf.Clamp(currentPos.x, _min.x, _max.x);
 
         transform.position = currentPos;
+    }
+
+    /// <summary>
+    /// éÊìæÇµÇΩÉAÉCÉeÉÄÇê∂ê¨
+    /// </summary>
+    /// <param name="item"></param>
+    public void SelectItem(GameObject item)
+    {
+        var bulletGb = Instantiate(item, transform.position + transform.forward, item.transform.rotation);
     }
 }
