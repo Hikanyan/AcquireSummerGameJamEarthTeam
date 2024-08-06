@@ -2,7 +2,6 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using GameJamProject.System;
-using HikanyanLaboratory.SceneManager;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
