@@ -4,7 +4,7 @@ public class CursorController : MonoBehaviour
 {
     private Transform _playerTransform;
 
-    /// <summary>カーソルのポジションを取得します</summary>
+    /// <summary>カーソルの Transform を取得します</summary>
     public Transform CursorTransform => transform;
 
     void Start()
