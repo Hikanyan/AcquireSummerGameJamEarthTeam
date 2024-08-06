@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlyerController : MonoBehaviour
+public class PlyerController : PlayerParameter
 {
     [SerializeField] float _playerSpeed = 0.5F;
     private Vector2 _min;
