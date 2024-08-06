@@ -126,7 +126,7 @@ namespace GameJamProject.Audio
         /// <summary>CriAtom の追加。acb追加</summary>
         protected override async void OnAwake()
         {
-            await LoadAcfAndAcb();
+            //await LoadAcfAndAcb();
             // acf設定
             string path = Application.streamingAssetsPath + $"/{_streamingAssetsPathAcf}.acf";
             CriAtomEx.RegisterAcf(null, path);
@@ -216,6 +216,10 @@ namespace GameJamProject.Audio
                 byte[] acfData = acfTextAsset.bytes;
                 CriAtomEx.RegisterAcf(acfData);
             }
+            else
+            {
+                Debug.LogWarning($"ACF file {_streamingAssetsPathAcf} not found in Resources.");
+            }
 
             // CriAtom作成
             gameObject.AddComponent<CriAtom>();
@@ -230,7 +234,7 @@ namespace GameJamProject.Audio
 
         private async UniTask LoadAcb(string cueSheetName)
         {
-            TextAsset acbTextAsset = Resources.Load<TextAsset>(cueSheetName);
+            TextAsset acbTextAsset = Resources.Load<TextAsset>(cueSheetName + ".bytes");
             if (acbTextAsset != null)
             {
                 byte[] acbData = acbTextAsset.bytes;
@@ -243,7 +247,7 @@ namespace GameJamProject.Audio
             }
             else
             {
-                Debug.LogError($"Cue sheet {cueSheetName} not found in Resources.");
+                Debug.LogWarning($"Cue sheet {cueSheetName} not found in Resources.");
             }
         }
 
