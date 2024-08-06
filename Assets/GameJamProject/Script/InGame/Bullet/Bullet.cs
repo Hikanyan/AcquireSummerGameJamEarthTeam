@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
 
         if (cursorController is not null)
         {
-            targetDir = cursorController.CursorTransform.position - transform.position;
+            targetDir = (cursorController.CursorTransform.position - transform.position).normalized;
         }
 
         rigidbody.velocity = targetDir * _bulletSpeed;
