@@ -1,8 +1,9 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlyerController : MonoBehaviour
 {
-    private float _playerSpeed = 10.0F;
+    [SerializeField] float _playerSpeed = 10.0F;
     private Vector2 _min;
     private Vector2 _max;
 
