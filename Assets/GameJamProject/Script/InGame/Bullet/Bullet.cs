@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private string _name;
@@ -13,7 +15,7 @@ public class Bullet : MonoBehaviour
         spriteRenderer.sprite = _sprite;
         Rigidbody rigidbody = GetComponent<Rigidbody>();
         CursorController cursorController = FindFirstObjectByType<CursorController>();
-        Vector3 targetDir = cursorController.CursorPosition - transform.position;
+        Vector3 targetDir = cursorController.CursorTransform.position - transform.position;
         rigidbody.velocity = targetDir * _bulletSpeed;
     }
 }
