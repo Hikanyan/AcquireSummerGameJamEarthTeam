@@ -1,3 +1,4 @@
+using GameJamProject.Health;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -17,5 +18,15 @@ public class Bullet : MonoBehaviour
         CursorController cursorController = FindFirstObjectByType<CursorController>();
         Vector3 targetDir = cursorController.CursorTransform.position - transform.position;
         rigidbody.velocity = targetDir * _bulletSpeed;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var damegeable = other.gameObject.GetComponent<IDamageable>();
+        
+        if (damegeable is not null)
+        {
+            damegeable.TakeDamage(_damage);
+        }
     }
 }
