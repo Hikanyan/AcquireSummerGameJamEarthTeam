@@ -1,4 +1,5 @@
-﻿using GameJamProject.System;
+﻿using GameJamProject.Audio;
+using GameJamProject.System;
 using UnityEngine;
 
 namespace GameJamProject.Script.InGame
@@ -9,6 +10,7 @@ namespace GameJamProject.Script.InGame
         {
             Debug.Log("Entered In-Game State");
             // ゲーム中シーンの初期化処理をここに追加
+            AudioManager.Instance.PlayBGM("brightening");
         }
 
         public override void OnExit()

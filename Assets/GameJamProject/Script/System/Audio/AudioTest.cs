@@ -7,7 +7,7 @@ namespace GameJamProject.Audio
         private void Start()
         {
             // BGM再生
-            AudioManager.Instance.PlayBGM("BGM_01");
+            AudioManager.Instance.PlayBGM("brightening");
 
             // SE再生
             //AudioManager.Instance.PlaySE(_seClip);
