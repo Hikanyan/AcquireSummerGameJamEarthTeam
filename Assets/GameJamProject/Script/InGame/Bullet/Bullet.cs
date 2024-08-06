@@ -14,16 +14,23 @@ public class Bullet : MonoBehaviour
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = _sprite;
+
         Rigidbody rigidbody = GetComponent<Rigidbody>();
+        Vector3 targetDir = Vector3.forward;
         CursorController cursorController = FindFirstObjectByType<CursorController>();
-        Vector3 targetDir = cursorController.CursorTransform.position - transform.position;
+
+        if (cursorController is not null)
+        {
+            targetDir = cursorController.CursorTransform.position - transform.position;
+        }
+
         rigidbody.velocity = targetDir * _bulletSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         var damegeable = other.gameObject.GetComponent<IDamageable>();
-        
+
         if (damegeable is not null)
         {
             damegeable.TakeDamage(_damage);
