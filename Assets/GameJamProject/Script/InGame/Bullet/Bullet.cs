@@ -16,6 +16,12 @@ public class Bullet : MonoBehaviour
         spriteRenderer.sprite = _sprite;
 
         Rigidbody rigidbody = GetComponent<Rigidbody>();
+        
+        if (rigidbody.useGravity)
+        {
+            rigidbody.useGravity = false;
+        }
+        
         Vector3 targetDir = Vector3.forward;
         CursorController cursorController = FindFirstObjectByType<CursorController>();
 
