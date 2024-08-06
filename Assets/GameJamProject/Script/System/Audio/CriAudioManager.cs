@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CriWare;
+using Cysharp.Threading.Tasks;
 using GameJamProject.System;
 using UnityEngine;
 
@@ -8,10 +9,10 @@ namespace GameJamProject.Audio
 {
     public class CriAudioManager : Singleton<CriAudioManager>
     {
-        [SerializeField] private string streamingAssetsPathAcf = "AcquireSummerGameJamEarthTeam";
-        [SerializeField] private string cueSheetBGM = "CueSheet_BGM"; //.acb
-        [SerializeField] private string cueSheetSe = "CueSheet_SE"; //.acb
-        [SerializeField] private string cueSheetVoice = "CueSheet_Voice"; //.acb
+        [SerializeField] private string _streamingAssetsPathAcf = "AcquireSummerGameJamEarthTeam";
+        [SerializeField] private string _cueSheetBGM = "CueSheet_BGM"; //.acb
+        [SerializeField] private string _cueSheetSe = "CueSheet_SE"; //.acb
+        [SerializeField] private string _cueSheetVoice = "CueSheet_Voice"; //.acb
 
         protected override bool UseDontDestroyOnLoad => true;
 
@@ -123,19 +124,20 @@ namespace GameJamProject.Audio
 
 
         /// <summary>CriAtom の追加。acb追加</summary>
-        protected override void OnAwake()
+        protected override async void OnAwake()
         {
+            await LoadAcfAndAcb();
             // acf設定
-            string path = Application.streamingAssetsPath + $"/{streamingAssetsPathAcf}.acf";
+            string path = Application.streamingAssetsPath + $"/{_streamingAssetsPathAcf}.acf";
             CriAtomEx.RegisterAcf(null, path);
             // CriAtom作成
             gameObject.AddComponent<CriAtom>();
             // BGM acb追加
-            CriAtom.AddCueSheet(cueSheetBGM, $"{cueSheetBGM}.acb", null, null);
+            CriAtom.AddCueSheet(_cueSheetBGM, $"{_cueSheetBGM}.acb", null, null);
             // SE acb追加
-            CriAtom.AddCueSheet(cueSheetSe, $"{cueSheetSe}.acb", null, null);
+            CriAtom.AddCueSheet(_cueSheetSe, $"{_cueSheetSe}.acb", null, null);
             //Voice acb追加
-            CriAtom.AddCueSheet(cueSheetVoice, $"{cueSheetVoice}.acb", null, null);
+            CriAtom.AddCueSheet(_cueSheetVoice, $"{_cueSheetVoice}.acb", null, null);
 
             _bgmPlayer = new CriAtomExPlayer();
             _sePlayer = new CriAtomExPlayer();
@@ -205,6 +207,46 @@ namespace GameJamProject.Audio
             };
         }
 
+        private async UniTask LoadAcfAndAcb()
+        {
+            // ACF読み込み
+            TextAsset acfTextAsset = Resources.Load<TextAsset>(_streamingAssetsPathAcf);
+            if (acfTextAsset != null)
+            {
+                byte[] acfData = acfTextAsset.bytes;
+                CriAtomEx.RegisterAcf(acfData);
+            }
+
+            // CriAtom作成
+            gameObject.AddComponent<CriAtom>();
+
+            // ACB読み込み
+            await LoadAcb(_cueSheetBGM);
+            await LoadAcb(_cueSheetSe);
+            await LoadAcb(_cueSheetVoice);
+
+            CriAtom.AttachDspBusSetting("DspBusSetting_0");
+        }
+
+        private async UniTask LoadAcb(string cueSheetName)
+        {
+            TextAsset acbTextAsset = Resources.Load<TextAsset>(cueSheetName);
+            if (acbTextAsset != null)
+            {
+                byte[] acbData = acbTextAsset.bytes;
+                CriAtom.AddCueSheet(cueSheetName, acbData, null);
+                var cueSheet = CriAtom.GetCueSheet(cueSheetName);
+                while (cueSheet.IsLoading)
+                {
+                    await UniTask.Yield();
+                }
+            }
+            else
+            {
+                Debug.LogError($"Cue sheet {cueSheetName} not found in Resources.");
+            }
+        }
+
         protected override void OnDestroy()
         {
             CriAtomPlugin.FinalizeLibrary();
@@ -214,10 +256,10 @@ namespace GameJamProject.Audio
         /// <param name="cueName">流したいキューの名前</param>
         public void PlayBGM(string cueName)
         {
-            var tempAcb = CriAtom.GetCueSheet(cueSheetBGM).acb;
+            var tempAcb = CriAtom.GetCueSheet(_cueSheetBGM).acb;
             if (!tempAcb.GetCueInfo(cueName, out var cueInfo))
             {
-                Debug.LogError($"BGMキュー名 '{cueName}' がキューシート '{cueSheetBGM}' に存在しません。");
+                Debug.LogError($"BGMキュー名 '{cueName}' がキューシート '{_cueSheetBGM}' に存在しません。");
                 return;
             }
 
@@ -265,10 +307,10 @@ namespace GameJamProject.Audio
         {
             CriPlayerData newAtomPlayer = new CriPlayerData();
 
-            var tempAcb = CriAtom.GetCueSheet(cueSheetSe).acb;
+            var tempAcb = CriAtom.GetCueSheet(_cueSheetSe).acb;
             if (!tempAcb.GetCueInfo(cueName, out var cueInfo))
             {
-                Debug.LogError($"SEキュー名 '{cueName}' がキューシート '{cueSheetSe}' に存在しません。");
+                Debug.LogError($"SEキュー名 '{cueName}' がキューシート '{_cueSheetSe}' に存在しません。");
                 return -1;
             }
 
@@ -331,7 +373,7 @@ namespace GameJamProject.Audio
         public int PlayVoice(string cueName, float volume = 1f)
         {
             CriPlayerData newAtomPlayer = new CriPlayerData();
-            var tempAcb = CriAtom.GetCueSheet(cueSheetSe).acb;
+            var tempAcb = CriAtom.GetCueSheet(_cueSheetSe).acb;
             tempAcb.GetCueInfo(cueName, out var cueInfo);
 
             newAtomPlayer.CueInfo = cueInfo;
