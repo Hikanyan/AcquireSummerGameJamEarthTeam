@@ -4,14 +4,10 @@ namespace GameJamProject.Audio
 {
     public class AudioTest : MonoBehaviour
     {
-        public AudioClip _bgmClip;
-        public AudioClip _seClip;
-        public AudioClip _voiceClip;
-
         private void Start()
         {
             // BGM再生
-            AudioManager.Instance.PlayBGM(_bgmClip);
+            AudioManager.Instance.PlayBGM("BGM_01");
 
             // SE再生
             //AudioManager.Instance.PlaySE(_seClip);
