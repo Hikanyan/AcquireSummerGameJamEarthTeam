@@ -17,9 +17,17 @@ namespace GameJamProject.Script.InGame
             // ゲーム中シーンの終了処理をここに追加
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         public override void OnUpdate(float deltaTime)
         {
             // ゲーム中シーンの更新処理をここに追加
+            
+            // ゲームオーバー条件を満たした場合
+            if (true)
+            {
+                // ゲームオーバーシーンに遷移
+                GameController.Instance.ChangeGameState(GameState.GameOver);
+            }
         }
     }
 }

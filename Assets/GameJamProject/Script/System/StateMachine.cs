@@ -5,27 +5,27 @@ namespace GameJamProject.System
     // 状態管理クラス
     public class StateMachine : MonoBehaviour
     {
-        private State currentState;
+        private State _currentState;
 
         public void ChangeState(State newState)
         {
-            if (currentState != null)
+            if (_currentState != null)
             {
-                currentState.OnExit();
+                _currentState.OnExit();
             }
 
-            currentState = newState;
-            if (currentState != null)
+            _currentState = newState;
+            if (_currentState != null)
             {
-                currentState.OnEnter();
+                _currentState.OnEnter();
             }
         }
 
-        private void Update()
+        public void Update()
         {
-            if (currentState != null)
+            if (_currentState != null)
             {
-                currentState.OnUpdate(Time.deltaTime);
+                _currentState.OnUpdate(Time.deltaTime);
             }
         }
     }
