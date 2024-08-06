@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using GameJamProject.System;
 
 namespace GameJamProject.Audio
@@ -8,6 +9,10 @@ namespace GameJamProject.Audio
         [SerializeField] private AudioSource _bgmSource;
         [SerializeField] private AudioSource _seSource;
         [SerializeField] private AudioSource _voiceSource;
+
+        private Dictionary<string, AudioClip> _bgmClips;
+        private Dictionary<string, AudioClip> _seClips;
+        private Dictionary<string, AudioClip> _voiceClips;
 
         protected override bool UseDontDestroyOnLoad => true;
 
@@ -68,11 +73,49 @@ namespace GameJamProject.Audio
             _voiceSource.volume = _voiceVolume * _masterVolume;
         }
 
-        public void PlayBGM(AudioClip clip, bool loop = true)
+        private void Awake()
         {
-            _bgmSource.clip = clip;
-            _bgmSource.loop = loop;
-            _bgmSource.Play();
+            _bgmClips = new Dictionary<string, AudioClip>();
+            _seClips = new Dictionary<string, AudioClip>();
+            _voiceClips = new Dictionary<string, AudioClip>();
+        }
+
+        public void RegisterBGM(AudioClipEntry entry)
+        {
+            if (!_bgmClips.ContainsKey(entry._name))
+            {
+                _bgmClips[entry._name] = entry._clip;
+            }
+        }
+
+        public void RegisterSE(AudioClipEntry entry)
+        {
+            if (!_seClips.ContainsKey(entry._name))
+            {
+                _seClips[entry._name] = entry._clip;
+            }
+        }
+
+        public void RegisterVoice(AudioClipEntry entry)
+        {
+            if (!_voiceClips.ContainsKey(entry._name))
+            {
+                _voiceClips[entry._name] = entry._clip;
+            }
+        }
+
+        public void PlayBGM(string name, bool loop = true)
+        {
+            if (_bgmClips.TryGetValue(name, out var clip))
+            {
+                _bgmSource.clip = clip;
+                _bgmSource.loop = loop;
+                _bgmSource.Play();
+            }
+            else
+            {
+                Debug.LogWarning($"BGM clip '{name}' not found.");
+            }
         }
 
         public void StopBGM()
@@ -80,14 +123,28 @@ namespace GameJamProject.Audio
             _bgmSource.Stop();
         }
 
-        public void PlaySE(AudioClip clip)
+        public void PlaySE(string name)
         {
-            _seSource.PlayOneShot(clip, _seVolume * _masterVolume);
+            if (_seClips.TryGetValue(name, out var clip))
+            {
+                _seSource.PlayOneShot(clip, _seVolume * _masterVolume);
+            }
+            else
+            {
+                Debug.LogWarning($"SE clip '{name}' not found.");
+            }
         }
 
-        public void PlayVoice(AudioClip clip)
+        public void PlayVoice(string name)
         {
-            _voiceSource.PlayOneShot(clip, _voiceVolume * _masterVolume);
+            if (_voiceClips.TryGetValue(name, out var clip))
+            {
+                _voiceSource.PlayOneShot(clip, _voiceVolume * _masterVolume);
+            }
+            else
+            {
+                Debug.LogWarning($"Voice clip '{name}' not found.");
+            }
         }
     }
 }
