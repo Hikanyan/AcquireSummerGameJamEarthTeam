@@ -3,14 +3,26 @@ using UnityEngine.InputSystem;
 
 public class PlyerController : MonoBehaviour
 {
-    [SerializeField] float _playerSpeed = 10.0F;
+    [SerializeField] float _playerSpeed = 0.5F;
     private Vector2 _min;
     private Vector2 _max;
 
+    private Vector2 _inputMove;
+
+    private Transform _transform;
+    private CharacterController _characterController;
+
     void Start()
     {
+        Rigidbody rb = GetComponent<Rigidbody>();
         _min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
         _max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+    }
+
+    private void Awake()
+    {
+        _transform = transform;
+        _characterController = GetComponent<CharacterController>();
     }
 
     void Update()
@@ -19,19 +31,22 @@ public class PlyerController : MonoBehaviour
     }
 
     /// <summary>
+    /// à⁄ìÆAction(PlayerInputë§Ç©ÇÁåƒÇŒÇÍÇÈ)
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        _inputMove = context.ReadValue<Vector2>();
+    }
+
+    /// <summary>
     /// ÉvÉåÉCÉÑÅ[ÇÃà⁄ìÆ
     /// </summary>
-    private void Move()
+    public void Move()
     {
-        
-        float x = Input.GetAxis("Horizontal") * Time.deltaTime * _playerSpeed;
-        transform.position += new Vector3(x, 0, 0);
-
-        Vector3 currentPos = transform.position;
-
-        currentPos.x = Mathf.Clamp(currentPos.x, _min.x, _max.x);
-
-        transform.position = currentPos;
+        var moveVelocity = new Vector3(_inputMove.x * _playerSpeed, 0, 0);
+        var moveDelta = moveVelocity * Time.deltaTime;
+        _characterController.Move(moveVelocity);
     }
 
     /// <summary>
