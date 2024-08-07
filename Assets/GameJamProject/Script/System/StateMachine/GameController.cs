@@ -16,7 +16,7 @@ namespace GameJamProject.System
             _stateMachine = gameObject.AddComponent<StateMachine>();
 
             // 初期状態をTitleStateに設定
-            ChangeGameState(GameState.Title);
+            ChangeGameState(GameState.None);
         }
 
         private void Update()
