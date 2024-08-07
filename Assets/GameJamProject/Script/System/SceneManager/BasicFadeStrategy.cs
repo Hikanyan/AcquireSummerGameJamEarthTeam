@@ -4,7 +4,7 @@ using DG.Tweening;
 using GameJamProject.SceneManager;
 using UnityEngine;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     [Serializable]
     public class BasicFadeStrategy : IFadeStrategy

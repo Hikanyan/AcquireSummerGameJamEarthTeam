@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     public class SceneLoader
     {
