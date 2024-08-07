@@ -5,16 +5,21 @@ namespace GameJamProject.Audio
 {
     public class AudioTest : MonoBehaviour
     {
-        private void Start()
+        private async void Start()
         {
             // BGM再生
             AudioManager.Instance.PlayBGM("brightening");
 
-            UniTask.Delay(2000);
+            // 2秒待機
+            await UniTask.Delay(2000);
 
+            // BGM停止
             AudioManager.Instance.StopBGM();
 
-            UniTask.Delay(2000);
+            // 2秒待機
+            await UniTask.Delay(2000);
+
+            // BGM再生
             AudioManager.Instance.PlayBGM("brightening");
         }
     }
