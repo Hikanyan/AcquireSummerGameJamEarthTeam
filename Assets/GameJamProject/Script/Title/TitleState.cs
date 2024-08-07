@@ -1,4 +1,5 @@
-﻿using GameJamProject.System;
+﻿using GameJamProject.Audio;
+using GameJamProject.System;
 using UnityEngine;
 
 namespace GameJamProject.Script.Title
@@ -9,12 +10,14 @@ namespace GameJamProject.Script.Title
         {
             Debug.Log("Entered Title State");
             // タイトルシーンの初期化処理をここに追加
+            AudioManager.Instance.PlayBGM("brightening");
         }
 
         public override void OnExit()
         {
             Debug.Log("Exited Title State");
             // タイトルシーンの終了処理をここに追加
+            AudioManager.Instance.StopBGM();
         }
 
         public override void OnUpdate(float deltaTime)
