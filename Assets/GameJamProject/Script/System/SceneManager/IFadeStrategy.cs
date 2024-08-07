@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     public interface IFadeStrategy
     {

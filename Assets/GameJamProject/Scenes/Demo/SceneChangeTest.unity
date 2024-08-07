@@ -208,14 +208,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4324816012134182648, guid: 42258e657172bcb469f036489ff6e8da, type: 3}
-      propertyPath: _fadeStrategy
-      value: 155679995536605186
-      objectReference: {fileID: 0}
-    - target: {fileID: 4324816012134182648, guid: 42258e657172bcb469f036489ff6e8da, type: 3}
-      propertyPath: managedReferences[155679995536605186]
-      value: Assembly-CSharp GameJamProject.SceneManager.BasicFadeStrategy
-      objectReference: {fileID: 0}
     - target: {fileID: 4324816012134182649, guid: 42258e657172bcb469f036489ff6e8da, type: 3}
       propertyPath: m_Name
       value: LoadingScene

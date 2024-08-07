@@ -5,7 +5,7 @@ using GameJamProject.System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     public class SceneManager : Singleton<SceneManager>
     {
@@ -13,19 +13,16 @@ namespace GameJamProject.SceneManager
 
         private Scene _lastScene;
         private SceneLoader _sceneLoader;
-        private string _neverUnloadSceneName = "ManagerScene";
+        private readonly string _neverUnloadSceneName = "ManagerScene";
         private IFadeStrategy _fadeStrategy;
         private readonly Stack<string> _sceneHistory = new Stack<string>();
 
-        [SerializeField] private Material _fadeMaterial; // フェードマテリアル
-
-        public Material FadeMaterial => _fadeMaterial; // フェードマテリアルの公開プロパティ
-
-        private async void Start()
+        protected override async void OnAwake()
         {
+            base.OnAwake(); // SingletonのAwakeメソッドを呼び出す
             // 初期化処理
             _sceneLoader = new SceneLoader();
-            _fadeStrategy = new BasicFadeStrategy();
+            _fadeStrategy = new BasicFadeStrategy(); // インターフェースを実装した具体的なインスタンスを設定
 
             // ManagerSceneを必ずロードする
             await LoadNeverUnloadSceneAsync();
@@ -39,14 +36,34 @@ namespace GameJamProject.SceneManager
         public async UniTask LoadSceneWithFade(string sceneName, Material fadeMaterial, float fadeDuration,
             float cutoutRange, Ease ease, bool recordHistory = true)
         {
+            SceneChangeView sceneChangeView = FindObjectOfType<SceneChangeView>();
+            if (sceneChangeView != null)
+            {
+                sceneChangeView.SetLoadingUIActive(true);
+                await sceneChangeView.FadeOut();
+            }
+
             await _fadeStrategy.FadeOut(fadeMaterial, fadeDuration, cutoutRange, ease);
-            await _sceneLoader.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            await LoadSceneWithProgress(sceneName, fadeMaterial, fadeDuration, cutoutRange, ease, sceneChangeView);
+
             if (recordHistory && !_sceneLoader.IsSceneLoaded(sceneName))
             {
                 _sceneHistory.Push(sceneName);
             }
 
             await _fadeStrategy.FadeIn(fadeMaterial, fadeDuration, cutoutRange, ease);
+            if (sceneChangeView != null)
+            {
+                await sceneChangeView.FadeIn();
+                sceneChangeView.SetLoadingUIActive(false);
+            }
+
+            if (_lastScene.isLoaded)
+            {
+                await UnloadSceneWithFade(_lastScene.name, fadeMaterial, fadeDuration, cutoutRange, ease);
+            }
+
+            _lastScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName);
         }
 
         public async UniTask UnloadSceneWithFade(string sceneName, Material fadeMaterial, float fadeDuration,
@@ -58,9 +75,53 @@ namespace GameJamProject.SceneManager
                 return;
             }
 
+            SceneChangeView sceneChangeView = FindObjectOfType<SceneChangeView>();
+            if (sceneChangeView != null)
+            {
+                sceneChangeView.SetLoadingUIActive(true);
+                await sceneChangeView.FadeOut();
+            }
+
             await _fadeStrategy.FadeOut(fadeMaterial, fadeDuration, cutoutRange, ease);
-            await _sceneLoader.UnloadSceneAsync(sceneName);
+            await UnloadSceneWithProgress(sceneName, fadeMaterial, fadeDuration, cutoutRange, ease, sceneChangeView);
             await _fadeStrategy.FadeIn(fadeMaterial, fadeDuration, cutoutRange, ease);
+
+            if (sceneChangeView != null)
+            {
+                await sceneChangeView.FadeIn();
+                sceneChangeView.SetLoadingUIActive(false);
+            }
+        }
+
+        private async UniTask LoadSceneWithProgress(string sceneName, Material fadeMaterial, float fadeDuration,
+            float cutoutRange, Ease ease, SceneChangeView sceneChangeView)
+        {
+            var loadSceneOperation =
+                UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
+            while (!loadSceneOperation.isDone)
+            {
+                if (sceneChangeView != null)
+                {
+                    sceneChangeView.UpdateProgress(loadSceneOperation.progress);
+                }
+
+                await UniTask.Yield();
+            }
+        }
+
+        private async UniTask UnloadSceneWithProgress(string sceneName, Material fadeMaterial, float fadeDuration,
+            float cutoutRange, Ease ease, SceneChangeView sceneChangeView)
+        {
+            var unloadSceneOperation = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneName);
+            while (!unloadSceneOperation.isDone)
+            {
+                if (sceneChangeView != null)
+                {
+                    sceneChangeView.UpdateProgress(unloadSceneOperation.progress);
+                }
+
+                await UniTask.Yield();
+            }
         }
 
         public async UniTask ReloadSceneWithFade(Material fadeMaterial, float fadeDuration, float cutoutRange,
@@ -93,6 +154,14 @@ namespace GameJamProject.SceneManager
             {
                 _sceneHistory.Push(sceneName);
             }
+
+            // 直前のシーンをアンロード
+            if (_lastScene.isLoaded)
+            {
+                await UnloadScene(_lastScene.name);
+            }
+
+            _lastScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName);
         }
 
         public async UniTask UnloadScene(string sceneName)

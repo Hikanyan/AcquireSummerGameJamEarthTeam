@@ -5,7 +5,7 @@ using GameJamProject.SceneManager;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     public class SceneChangeView : MonoBehaviour
     {
@@ -21,7 +21,7 @@ namespace GameJamProject.SceneManager
 
         private static readonly int MaskTex = Shader.PropertyToID("_MaskTex");
 
-
+        public Material FadeMaterial => _fadeMaterial;
         private void Start()
         {
             _fadeMaterial.SetTexture(MaskTex, _maskTexture);
