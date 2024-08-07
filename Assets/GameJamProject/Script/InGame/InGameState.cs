@@ -17,6 +17,7 @@ namespace GameJamProject.Script.InGame
         {
             Debug.Log("Exited In-Game State");
             // ゲーム中シーンの終了処理をここに追加
+            SaveManager.Instance.Save();
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
