@@ -1,7 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CursorController : MonoBehaviour
 {
+    [SerializeField] private float _maxY;
+    [SerializeField] private Slider _meater;
+
     private Transform _playerTransform;
 
     /// <summary>カーソルの Transform を取得します</summary>
@@ -14,6 +18,8 @@ public class CursorController : MonoBehaviour
 
     void Update()
     {
-        transform.position = new Vector3(_playerTransform.position.x, transform.position.y, transform.position.z);
+        transform.position = new Vector3(_playerTransform.position.x,
+            _playerTransform.position.y + _maxY * _meater.value,
+            transform.position.z);
     }
 }
