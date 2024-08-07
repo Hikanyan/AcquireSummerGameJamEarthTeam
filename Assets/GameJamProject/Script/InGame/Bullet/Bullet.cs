@@ -10,18 +10,24 @@ public class Bullet : MonoBehaviour
     [SerializeField] private int _damage;
     [SerializeField] private float _bulletSpeed;
 
-    private void Start()
+    private void OnEnable()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = _sprite;
 
         Rigidbody rigidbody = GetComponent<Rigidbody>();
+        
+        if (rigidbody.useGravity)
+        {
+            rigidbody.useGravity = false;
+        }
+        
         Vector3 targetDir = Vector3.forward;
         CursorController cursorController = FindFirstObjectByType<CursorController>();
 
         if (cursorController is not null)
         {
-            targetDir = cursorController.CursorTransform.position - transform.position;
+            targetDir = (cursorController.CursorTransform.position - transform.position).normalized;
         }
 
         rigidbody.velocity = targetDir * _bulletSpeed;
@@ -34,6 +40,7 @@ public class Bullet : MonoBehaviour
         if (damegeable is not null)
         {
             damegeable.TakeDamage(_damage);
+            gameObject.SetActive(false);
         }
     }
 }
