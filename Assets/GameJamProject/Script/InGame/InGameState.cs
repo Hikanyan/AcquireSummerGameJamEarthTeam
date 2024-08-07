@@ -4,16 +4,16 @@ using UnityEngine;
 
 namespace GameJamProject.Script.InGame
 {
-    public class InGameState : State
+    public class InGameState : MonoBehaviour
     {
-        public override void OnEnter()
+        public async void Start()
         {
             Debug.Log("Entered In-Game State");
             // ゲーム中シーンの初期化処理をここに追加
             AudioManager.Instance.PlayBGM("chasing");
         }
 
-        public override void OnExit()
+        public void OnDestroy()
         {
             Debug.Log("Exited In-Game State");
             // ゲーム中シーンの終了処理をここに追加
@@ -22,10 +22,10 @@ namespace GameJamProject.Script.InGame
         }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public override void OnUpdate(float deltaTime)
+        public void Update()
         {
             // ゲーム中シーンの更新処理をここに追加
-            
+
             // ゲームオーバー条件を満たした場合
             // if (true)
             // {
