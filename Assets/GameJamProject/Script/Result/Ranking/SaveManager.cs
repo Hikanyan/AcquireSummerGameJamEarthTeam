@@ -32,6 +32,11 @@ public class SaveManager : Singleton<SaveManager>
     {
         _score = score;
     }
+
+    public void GetPlayerName(string name)
+    {
+        _name = name;
+    }
     
     public void Save()
     {
