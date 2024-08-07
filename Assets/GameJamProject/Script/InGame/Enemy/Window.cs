@@ -1,3 +1,4 @@
+using GameJamProject.Audio;
 using GameJamProject.Health;
 using UnityEngine;
 
@@ -8,6 +9,10 @@ public class Window : MonoBehaviour, IDamageable
     public WindowData WindowData;
 
     SpriteRenderer _spriteRenderer;
+    ScoreController _scoreController;
+    PlayerHp _playerHp;
+
+    [SerializeField] GameObject _damageSprite = default;
 
     public void ChangeSprite(Sprite sprite)
     {
@@ -20,11 +25,28 @@ public class Window : MonoBehaviour, IDamageable
 
     public void TakeDamage(int amount)
     {
+        AudioManager.Instance.PlaySE("‘ÅŒ‚3");
+        Instantiate(_damageSprite, transform.position, Quaternion.identity);
+
+        switch (WindowData.WindowSate)
+        {
+            case WindowSate.Target:
+                _scoreController.AddScore(1000);
+                break;
+            case WindowSate.People:
+                _playerHp.Damage(amount);
+                break;
+                
+        }
+
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        _scoreController = FindFirstObjectByType<ScoreController>();
+        _playerHp = FindFirstObjectByType<PlayerHp>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }

@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlyerController : PlayerParameter
+public class PlyerController : MonoBehaviour
 {
     [SerializeField] float _playerSpeed = 10.0F;
     [SerializeField] Vector2 _min = new Vector2();
     [SerializeField] Vector2 _max = new Vector2();
     [SerializeField] List<GameObject> _items;
+
+    [SerializeField] PlayerHp _playerHp;
+
     private Vector2 _inputMove;
 
     private Transform _transform;
@@ -64,7 +67,7 @@ public class PlyerController : PlayerParameter
     /// <param name="context"></param>
     public void OnFire(InputAction.CallbackContext context)
     {
-        if(context.performed)
+        if (context.performed)
         {
             GameObject item = Instantiate(_itemManager.SelectItems[0], transform.position + transform.forward, _itemManager.SelectItems[0].transform.rotation);
             _itemManager.NextItem();
