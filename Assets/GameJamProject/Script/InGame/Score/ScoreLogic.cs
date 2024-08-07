@@ -9,5 +9,6 @@ public class ScoreLogic : MonoBehaviour
     public void AddScore(int score)
     {
         _score.Value += score;
+        Debug.Log("Score : " + _score.Value);
     }
 }

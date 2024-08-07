@@ -28,7 +28,7 @@ public class Window : MonoBehaviour, IDamageable
         switch (WindowData.WindowSate)
         {
             case WindowSate.Target:
-                _scoreController.AddScore(100);
+                _scoreController.AddScore(1000);
                 break;
             case WindowSate.People:
                 _playerHp.Damage(amount);

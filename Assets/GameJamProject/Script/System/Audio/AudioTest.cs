@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace GameJamProject.Audio
 {
@@ -9,11 +10,12 @@ namespace GameJamProject.Audio
             // BGM再生
             AudioManager.Instance.PlayBGM("brightening");
 
-            // SE再生
-            //AudioManager.Instance.PlaySE(_seClip);
+            UniTask.Delay(2);
 
-            // Voice再生
-            //AudioManager.Instance.PlayVoice(_voiceClip);
+            AudioManager.Instance.StopBGM();
+
+            UniTask.Delay(2);
+            AudioManager.Instance.PlayBGM("brightening");
         }
     }
 }
