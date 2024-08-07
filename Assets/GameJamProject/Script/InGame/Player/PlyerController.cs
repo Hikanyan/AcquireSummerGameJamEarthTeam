@@ -1,3 +1,4 @@
+using GameJamProject.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -5,8 +6,8 @@ using UnityEngine.InputSystem;
 public class PlyerController : PlayerParameter
 {
     [SerializeField] float _playerSpeed = 10.0F;
-    [SerializeField] Vector2 _min;
-    [SerializeField] Vector2 _max;
+    [SerializeField] Vector2 _min = new Vector2();
+    [SerializeField] Vector2 _max = new Vector2();
     [SerializeField] List<GameObject> _items;
     private Vector2 _inputMove;
 
@@ -16,8 +17,6 @@ public class PlyerController : PlayerParameter
     void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
-        _min = new Vector2(-9, 0);
-        _max = new Vector2(9, 0);
     }
 
     private void Awake()
@@ -66,6 +65,7 @@ public class PlyerController : PlayerParameter
         if(context.performed)
         {
             SelectItem(_items[Random.Range(0, _items.Count)]);
+            AudioManager.Instance.PlaySE("‘å–C2");
         }
     }
 
