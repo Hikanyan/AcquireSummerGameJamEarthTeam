@@ -13,12 +13,13 @@ namespace GameJamProject.SceneManagement
 
         private Scene _lastScene;
         private SceneLoader _sceneLoader;
-        private string _neverUnloadSceneName = "ManagerScene";
+        private readonly string _neverUnloadSceneName = "ManagerScene";
         private IFadeStrategy _fadeStrategy;
         private readonly Stack<string> _sceneHistory = new Stack<string>();
 
         protected override async void OnAwake()
         {
+            base.OnAwake(); // SingletonのAwakeメソッドを呼び出す
             // 初期化処理
             _sceneLoader = new SceneLoader();
             _fadeStrategy = new BasicFadeStrategy(); // インターフェースを実装した具体的なインスタンスを設定
@@ -44,6 +45,7 @@ namespace GameJamProject.SceneManagement
 
             await _fadeStrategy.FadeOut(fadeMaterial, fadeDuration, cutoutRange, ease);
             await LoadSceneWithProgress(sceneName, fadeMaterial, fadeDuration, cutoutRange, ease, sceneChangeView);
+
             if (recordHistory && !_sceneLoader.IsSceneLoaded(sceneName))
             {
                 _sceneHistory.Push(sceneName);
@@ -55,6 +57,13 @@ namespace GameJamProject.SceneManagement
                 await sceneChangeView.FadeIn();
                 sceneChangeView.SetLoadingUIActive(false);
             }
+
+            if (_lastScene.isLoaded)
+            {
+                await UnloadSceneWithFade(_lastScene.name, fadeMaterial, fadeDuration, cutoutRange, ease);
+            }
+
+            _lastScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName);
         }
 
         public async UniTask UnloadSceneWithFade(string sceneName, Material fadeMaterial, float fadeDuration,
@@ -145,6 +154,14 @@ namespace GameJamProject.SceneManagement
             {
                 _sceneHistory.Push(sceneName);
             }
+
+            // 直前のシーンをアンロード
+            if (_lastScene.isLoaded)
+            {
+                await UnloadScene(_lastScene.name);
+            }
+
+            _lastScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(sceneName);
         }
 
         public async UniTask UnloadScene(string sceneName)
