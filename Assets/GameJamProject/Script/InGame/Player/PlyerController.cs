@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 
 public class PlyerController : PlayerParameter
 {
-    [SerializeField] float _playerSpeed = 0.5F;
-    private Vector2 _min;
-    private Vector2 _max;
+    [SerializeField] float _playerSpeed = 10.0F;
+    [SerializeField] Vector2 _min;
+    [SerializeField] Vector2 _max;
 
     private Vector2 _inputMove;
 
@@ -15,8 +15,8 @@ public class PlyerController : PlayerParameter
     void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
-        _min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0));
-        _max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+        _min = new Vector2(-9, 0);
+        _max = new Vector2(9, 0);
     }
 
     private void Awake()
@@ -44,9 +44,16 @@ public class PlyerController : PlayerParameter
     /// </summary>
     public void Move()
     {
+        Vector3 playerPos = _characterController.transform.position;
+
         var moveVelocity = new Vector3(_inputMove.x * _playerSpeed, 0, 0);
         var moveDelta = moveVelocity * Time.deltaTime;
-        _characterController.Move(moveVelocity);
+
+        Vector3 newPostion = playerPos + moveDelta;
+
+        newPostion.x = Mathf.Clamp(newPostion.x, _min.x, _max.x);
+
+        _characterController.Move(newPostion - playerPos);
     }
 
     /// <summary>
