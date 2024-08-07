@@ -5,7 +5,7 @@ using GameJamProject.SceneManager;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     public class SceneChangeView : MonoBehaviour
     {

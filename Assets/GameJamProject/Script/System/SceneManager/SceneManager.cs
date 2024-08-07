@@ -5,7 +5,7 @@ using GameJamProject.System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GameJamProject.SceneManager
+namespace GameJamProject.SceneManagement
 {
     public class SceneManager : Singleton<SceneManager>
     {
@@ -17,10 +17,8 @@ namespace GameJamProject.SceneManager
         private IFadeStrategy _fadeStrategy;
         private readonly Stack<string> _sceneHistory = new Stack<string>();
 
-        [SerializeField] private Material _fadeMaterial; // フェードマテリアル
-
-        public Material FadeMaterial => _fadeMaterial; // フェードマテリアルの公開プロパティ
-
+        private Material _fadeMaterial;
+        public Material FadeMaterial => _fadeMaterial;
         private async void Start()
         {
             // 初期化処理
@@ -39,6 +37,12 @@ namespace GameJamProject.SceneManager
         public async UniTask LoadSceneWithFade(string sceneName, Material fadeMaterial, float fadeDuration,
             float cutoutRange, Ease ease, bool recordHistory = true)
         {
+            SceneChangeView sceneChangeView = FindObjectOfType<SceneChangeView>();
+            if (sceneChangeView != null)
+            {
+                sceneChangeView.SetLoadingUIActive(true);
+                await sceneChangeView.FadeOut();
+            }
             await _fadeStrategy.FadeOut(fadeMaterial, fadeDuration, cutoutRange, ease);
             await _sceneLoader.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             if (recordHistory && !_sceneLoader.IsSceneLoaded(sceneName))
@@ -47,6 +51,11 @@ namespace GameJamProject.SceneManager
             }
 
             await _fadeStrategy.FadeIn(fadeMaterial, fadeDuration, cutoutRange, ease);
+            if (sceneChangeView != null)
+            {
+                await sceneChangeView.FadeIn();
+                sceneChangeView.SetLoadingUIActive(false);
+            }
         }
 
         public async UniTask UnloadSceneWithFade(string sceneName, Material fadeMaterial, float fadeDuration,
@@ -58,9 +67,22 @@ namespace GameJamProject.SceneManager
                 return;
             }
 
+            SceneChangeView sceneChangeView = FindObjectOfType<SceneChangeView>();
+            if (sceneChangeView != null)
+            {
+                sceneChangeView.SetLoadingUIActive(true);
+                await sceneChangeView.FadeOut();
+            }
+
             await _fadeStrategy.FadeOut(fadeMaterial, fadeDuration, cutoutRange, ease);
             await _sceneLoader.UnloadSceneAsync(sceneName);
             await _fadeStrategy.FadeIn(fadeMaterial, fadeDuration, cutoutRange, ease);
+            
+            if (sceneChangeView != null)
+            {
+                await sceneChangeView.FadeIn();
+                sceneChangeView.SetLoadingUIActive(false);
+            }
         }
 
         public async UniTask ReloadSceneWithFade(Material fadeMaterial, float fadeDuration, float cutoutRange,

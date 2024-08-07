@@ -10,6 +10,7 @@ namespace GameJamProject.Script.Title
         {
             Debug.Log("Entered Title State");
             // タイトルシーンの初期化処理をここに追加
+            SceneManagement.SceneManager.Instance.LoadScene("Title");
             AudioManager.Instance.PlayBGM("brightening");
         }
 
