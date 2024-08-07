@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,7 +7,7 @@ public class PlyerController : PlayerParameter
     [SerializeField] float _playerSpeed = 10.0F;
     [SerializeField] Vector2 _min;
     [SerializeField] Vector2 _max;
-
+    [SerializeField] List<GameObject> _items;
     private Vector2 _inputMove;
 
     private Transform _transform;
@@ -54,6 +55,18 @@ public class PlyerController : PlayerParameter
         newPostion.x = Mathf.Clamp(newPostion.x, _min.x, _max.x);
 
         _characterController.Move(newPostion - playerPos);
+    }
+
+    /// <summary>
+    /// ƒAƒCƒeƒ€”­ŽËAction(PlayerInput‚©‚çŒÄ‚Î‚ê‚é)
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            SelectItem(_items[Random.Range(0, _items.Count)]);
+        }
     }
 
     /// <summary>
