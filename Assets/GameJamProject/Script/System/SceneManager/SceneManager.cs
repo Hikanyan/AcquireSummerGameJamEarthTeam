@@ -24,7 +24,9 @@ namespace GameJamProject.SceneManagement
             _sceneLoader = new SceneLoader();
             _fadeStrategy = new BasicFadeStrategy(); // インターフェースを実装した具体的なインスタンスを設定
 
+            // 現在のアクティブなシーンを取得して_lastSceneに設定
             _lastScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+
             // ManagerSceneを必ずロードする
             await LoadNeverUnloadSceneAsync();
         }
