@@ -7,9 +7,8 @@ namespace GameJamProject.Script.Title
 {
     public class TitleState : MonoBehaviour
     {
-        public async void Start()
+        public void Start()
         {
-            await SceneManagement.SceneManager.Instance.LoadScene("TitleScene");
             AudioManager.Instance.PlayBGM("brightening");
         }
 

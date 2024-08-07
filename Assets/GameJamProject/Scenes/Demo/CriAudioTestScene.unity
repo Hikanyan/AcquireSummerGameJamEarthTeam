@@ -388,18 +388,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 3356968082566135467, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
-      propertyPath: _bgmClips.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3356968082566135467, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
-      propertyPath: _bgmClips.Array.data[0]._clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 6033d397e5b494048b91a2a1f09ccadd, type: 3}
-    - target: {fileID: 3356968082566135467, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
-      propertyPath: _bgmClips.Array.data[0]._name
-      value: brightening
-      objectReference: {fileID: 0}
     - target: {fileID: 5916595915777246293, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
