@@ -10,13 +10,14 @@ namespace GameJamProject.Script.InGame
         {
             Debug.Log("Entered In-Game State");
             // ゲーム中シーンの初期化処理をここに追加
-            AudioManager.Instance.PlayBGM("brightening");
+            AudioManager.Instance.PlayBGM("chasing");
         }
 
         public override void OnExit()
         {
             Debug.Log("Exited In-Game State");
             // ゲーム中シーンの終了処理をここに追加
+            AudioManager.Instance.StopBGM();
             SaveManager.Instance.Save();
         }
 
@@ -26,11 +27,11 @@ namespace GameJamProject.Script.InGame
             // ゲーム中シーンの更新処理をここに追加
             
             // ゲームオーバー条件を満たした場合
-            if (true)
-            {
-                // ゲームオーバーシーンに遷移
-                GameController.Instance.ChangeGameState(GameState.GameOver);
-            }
+            // if (true)
+            // {
+            //     // ゲームオーバーシーンに遷移
+            //     GameController.Instance.ChangeGameState(GameState.GameOver);
+            // }
         }
     }
 }

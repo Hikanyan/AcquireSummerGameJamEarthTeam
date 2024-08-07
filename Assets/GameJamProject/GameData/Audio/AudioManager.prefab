@@ -63,8 +63,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 515052d80bc14b83a2e88c717d8b4ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bgmClips: []
-  _seClips: []
+  _bgmClips:
+  - _name: brightening
+    _clip: {fileID: 8300000, guid: 6033d397e5b494048b91a2a1f09ccadd, type: 3}
+  - _name: chasing
+    _clip: {fileID: 8300000, guid: 50df73facfd0e7c44882f9b044b7df94, type: 3}
+  - _name: configClear
+    _clip: {fileID: 8300000, guid: ad1735a67b24f1b48884387f8024023f, type: 3}
+  - _name: morning-cafe
+    _clip: {fileID: 8300000, guid: a720f398d77295b45a63a93576faa794, type: 3}
+  - _name: spring
+    _clip: {fileID: 8300000, guid: 535a13355744c2d4e9908d2ebcb96b7d, type: 3}
+  _seClips:
+  - _name: "\u30B9\u30C6\u30FC\u30BF\u30B9\u6CBB\u76421"
+    _clip: {fileID: 8300000, guid: 27a31b80bc7db5842a2725186ec2c246, type: 3}
+  - _name: "\u30D1\u30F3\u30C1\u3092\u53D7\u3051\u6B62\u3081\u308B"
+    _clip: {fileID: 8300000, guid: baec74904ff42ef40ac29aa4f3a57ba1, type: 3}
+  - _name: "\u5927\u78322"
+    _clip: {fileID: 8300000, guid: 008744a2b76243f40bcea99581b1233b, type: 3}
+  - _name: "\u6226\u95D8\u7A81\u5165\u97F3"
+    _clip: {fileID: 8300000, guid: 961404d3f58daa44c9703ec0bf9793f2, type: 3}
+  - _name: "\u6253\u64833"
+    _clip: {fileID: 8300000, guid: ecf0f9c748c1e004ebf7e3dd10546fd9, type: 3}
   _voiceClips: []
 --- !u!1 &459541759854463181
 GameObject:
