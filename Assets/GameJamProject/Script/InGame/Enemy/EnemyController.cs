@@ -1,27 +1,34 @@
+using GameJamProject.Health;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IDamageable
 {
-    [SerializeField] WindowData[] _windowDataBase;
     [SerializeField] float _interval = 3;
     [SerializeField] int _row = 3;
     [SerializeField] int _column = 3;
     [SerializeField] int _peopleCount = 3;
 
-    List<List<WindowData>> _windows = new List<List<WindowData>>();
+    List<List<Window>> _windows = new List<List<Window>>();
     float _currentTime;
 
     void Start()
     {
+        // 窓はこのコンポーネントの子オブジェクトにある前提
+        Window[] windows = GetComponentsInChildren<Window>();
+        int windowCount = 0;
+
         for (int y = 0; y < _row; y++)
         {
-            _windows.Add(new List<WindowData>());
+            _windows.Add(new List<Window>());
 
             for (int x = 0; x < _column; x++)
             {
-                _windows[y].Add(_windowDataBase[0]);
+                if (windowCount >= windows.Length) break;
+
+                _windows[y].Add(windows[windowCount]);
+                windowCount++;
             }
         }
 
@@ -62,43 +69,35 @@ public class EnemyController : MonoBehaviour
             while (peopleposition[i].x == targetPosition.x && peopleposition[i].y == targetPosition.y);
         }
 
-        for (int y = 0; y < _row; y++)
+        for (int y = 0; y < _windows.Count; y++)
         {
-            for (int x = 0; x < _column; x++)
+            for (int x = 0; x < _windows[y].Count; x++)
             {
                 if (targetPosition.x == x && targetPosition.y == y)
                 {
                     //Debug.Log($"TargetPosition\nx : {x}\ny : {y}");
-                    _windows[x][y] = _windowDataBase[1];
+                    _windows[x][y].WindowData.WindowSate = WindowSate.Target;
                 }
                 else if (peopleposition.Contains(new Vector2(x, y)))
                 {
                     //Debug.Log($"Peopleposition\nx : {x}\ny : {y}");
-                    _windows[x][y] = _windowDataBase[2];
+                    _windows[x][y].WindowData.WindowSate = WindowSate.People;
                 }
                 else
                 {
-                    _windows[x][y] = _windowDataBase[0];
+                    _windows[x][y].WindowData.WindowSate = WindowSate.None;
                 }
             }
         }
     }
+
+    public void TakeDamage(int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Heal(int amount)
+    {
+    }
 }
 
-
-[System.Serializable]
-public class WindowData
-{
-    [SerializeField] WindowSate windowSate;
-    [SerializeField] Sprite windowSprite;
-
-    public WindowSate WindowSate => windowSate;
-    public Sprite WindowSprite => windowSprite;
-}
-
-public enum WindowSate
-{
-    None,
-    Target,
-    People,
-}
