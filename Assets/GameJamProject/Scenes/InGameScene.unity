@@ -2474,7 +2474,7 @@ GameObject:
   - component: {fileID: 884719621}
   - component: {fileID: 884719620}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: InGameState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3930,6 +3930,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2127007918446480226, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
+      propertyPath: MinDistance
+      value: 169.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2594733995187023807, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
+      propertyPath: MinDistance
+      value: 169.05
+      objectReference: {fileID: 0}
     - target: {fileID: 5916595915777246293, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3969,6 +3977,10 @@ PrefabInstance:
     - target: {fileID: 5916595915777246293, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7239378080923150120, guid: cbe3d947436b8164aae92534a8dbf8c9, type: 3}
+      propertyPath: MinDistance
+      value: 169.05
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

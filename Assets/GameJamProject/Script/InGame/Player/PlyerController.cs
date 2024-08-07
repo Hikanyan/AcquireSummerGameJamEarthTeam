@@ -2,6 +2,7 @@ using GameJamProject.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlyerController : MonoBehaviour
 {
@@ -16,18 +17,21 @@ public class PlyerController : MonoBehaviour
 
     private Transform _transform;
     private CharacterController _characterController;
-    private ItemManager _itemManager;
+
+    private GameObject _parentBullet;
 
     void Start()
     {
         Rigidbody rb = GetComponent<Rigidbody>();
+ 
+        _parentBullet = new GameObject("ParentBullet");
+        SceneManager.MoveGameObjectToScene(_parentBullet, gameObject.scene);
     }
 
     private void Awake()
     {
         _transform = transform;
         _characterController = GetComponent<CharacterController>();
-        _itemManager = FindFirstObjectByType<ItemManager>();
     }
 
     void Update()
@@ -36,7 +40,7 @@ public class PlyerController : MonoBehaviour
     }
 
     /// <summary>
-    /// �ړ�Action(PlayerInput������Ă΂��)
+    /// 移動Action(PlayerInput側から呼ばれる)
     /// </summary>
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
@@ -45,7 +49,7 @@ public class PlyerController : MonoBehaviour
     }
 
     /// <summary>
-    /// �v���C���[�̈ړ�
+    /// プレイヤーの移動
     /// </summary>
     public void Move()
     {
@@ -62,25 +66,26 @@ public class PlyerController : MonoBehaviour
     }
 
     /// <summary>
-    /// �A�C�e������Action(PlayerInput����Ă΂��)
+    /// アイテム発射Action(PlayerInputから呼ばれる)
     /// </summary>
     /// <param name="context"></param>
     public void OnFire(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            GameObject item = Instantiate(_itemManager.SelectItems[0], transform.position + transform.forward, _itemManager.SelectItems[0].transform.rotation);
-            _itemManager.NextItem();
+            SelectItem(_items[Random.Range(0, _items.Count)]);
             AudioManager.Instance.PlaySE("大砲2");
         }
     }
 
     /// <summary>
-    /// �擾�����A�C�e���𐶐�
+    /// 取得したアイテムを生成
     /// </summary>
     /// <param name="item"></param>
     public void SelectItem(GameObject item)
     {
         var bulletGb = Instantiate(item, transform.position + transform.forward, item.transform.rotation);
+        SceneManager.MoveGameObjectToScene(bulletGb, gameObject.scene);
+        bulletGb.transform.parent = _parentBullet.transform;
     }
 }
