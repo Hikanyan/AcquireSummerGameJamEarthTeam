@@ -13,6 +13,7 @@ public class PlyerController : PlayerParameter
 
     private Transform _transform;
     private CharacterController _characterController;
+    private ItemManager _itemManager;
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class PlyerController : PlayerParameter
     {
         _transform = transform;
         _characterController = GetComponent<CharacterController>();
+        _itemManager = FindFirstObjectByType<ItemManager>();
     }
 
     void Update()
@@ -31,7 +33,7 @@ public class PlyerController : PlayerParameter
     }
 
     /// <summary>
-    /// ˆÚ“®Action(PlayerInput‘¤‚©‚çŒÄ‚Î‚ê‚é)
+    /// ï¿½Ú“ï¿½Action(PlayerInputï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½)
     /// </summary>
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
@@ -40,7 +42,7 @@ public class PlyerController : PlayerParameter
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ÌˆÚ“®
+    /// ï¿½vï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½[ï¿½ÌˆÚ“ï¿½
     /// </summary>
     public void Move()
     {
@@ -57,20 +59,21 @@ public class PlyerController : PlayerParameter
     }
 
     /// <summary>
-    /// ƒAƒCƒeƒ€”­ËAction(PlayerInput‚©‚çŒÄ‚Î‚ê‚é)
+    /// ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Action(PlayerInputï¿½ï¿½ï¿½ï¿½Ä‚Î‚ï¿½ï¿½)
     /// </summary>
     /// <param name="context"></param>
     public void OnFire(InputAction.CallbackContext context)
     {
         if(context.performed)
         {
-            SelectItem(_items[Random.Range(0, _items.Count)]);
-            AudioManager.Instance.PlaySE("‘å–C2");
+            GameObject item = Instantiate(_itemManager.SelectItems[0], transform.position + transform.forward, _itemManager.SelectItems[0].transform.rotation);
+            _itemManager.NextItem();
+            AudioManager.Instance.PlaySE("ï¿½ï¿½C2");
         }
     }
 
     /// <summary>
-    /// æ“¾‚µ‚½ƒAƒCƒeƒ€‚ğ¶¬
+    /// ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Cï¿½eï¿½ï¿½ï¿½ğ¶ï¿½
     /// </summary>
     /// <param name="item"></param>
     public void SelectItem(GameObject item)

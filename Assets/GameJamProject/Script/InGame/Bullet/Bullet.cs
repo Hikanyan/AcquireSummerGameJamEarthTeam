@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     [SerializeField] private Sprite _sprite;
     [SerializeField] private int _damage;
     [SerializeField] private float _bulletSpeed;
+    
+    public Sprite GetSprite => _sprite;
 
     private void OnEnable()
     {
