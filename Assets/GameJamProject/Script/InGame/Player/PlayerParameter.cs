@@ -1,20 +1,25 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class PlayerParameter : MonoBehaviour
 {
-    [SerializeField] protected float _maxHp = 3;
+    [SerializeField] protected int _maxHp = 3;
 
-    protected float _currentHp;
+    protected int _currentHp;
 
     private void Awake()
     {
         _currentHp = _maxHp;
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
-        _currentHp -= damage;
+        if (_currentHp > 1) _currentHp -= damage;
+        else
+        {
+            GameJamProject.SceneManagement.SceneManager.Instance.LoadScene("ResultScene").Forget();
+        }
         //AudioManager.Instance.PlaySE("");
     }
 }
