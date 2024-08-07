@@ -18,6 +18,7 @@ public class PlayerParameter : MonoBehaviour
         if (_currentHp > 1) _currentHp -= damage;
         else
         {
+            SaveManager.Instance.Save();
             GameJamProject.SceneManagement.SceneManager.Instance.LoadScene("ResultScene").Forget();
         }
         //AudioManager.Instance.PlaySE("");
