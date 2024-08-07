@@ -1,12 +1,14 @@
 using System;
+using GameJamProject.System;
 using UnityEngine;
 
 /// <summary> ランキングの古いデータと新しいデータを保存するクラス </summary>
-public class RankingData : MonoBehaviour
+public class RankingData : Singleton<RankingData>
 {
     private RankingList _currentRankData = default;
     private RankingList _oldRankData = default;
     
+    protected override bool UseDontDestroyOnLoad => true;
     
     private void Start()
     {

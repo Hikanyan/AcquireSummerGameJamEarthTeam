@@ -27,7 +27,17 @@ public class SaveManager : Singleton<SaveManager>
     protected override bool UseDontDestroyOnLoad => true;
     private const string _filePath = "Assets/Resources/Scores.json";
     private const string _fileName = "Scores";
+    
+    public void GetScore(int score)
+    {
+        _score = score;
+    }
 
+    public void GetPlayerName(string name)
+    {
+        _name = name;
+    }
+    
     public void Save()
     {
         // jsonデータの読み込み

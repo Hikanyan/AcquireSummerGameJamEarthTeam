@@ -8,6 +8,7 @@ public class ScoreController : MonoBehaviour
     private void Start()
     {
         _model.Score.Subscribe(score => _view.ChangeScore(score)).AddTo(this);
+        _model.Score.Subscribe(score => SaveManager.Instance.GetScore(score)).AddTo(this);
     }
 
     public void AddScore(int num)
