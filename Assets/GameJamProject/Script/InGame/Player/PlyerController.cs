@@ -71,7 +71,7 @@ public class PlyerController : MonoBehaviour
         {
             GameObject item = Instantiate(_itemManager.SelectItems[0], transform.position + transform.forward, _itemManager.SelectItems[0].transform.rotation);
             _itemManager.NextItem();
-            AudioManager.Instance.PlaySE("��C2");
+            AudioManager.Instance.PlaySE("大砲2");
         }
     }
 
