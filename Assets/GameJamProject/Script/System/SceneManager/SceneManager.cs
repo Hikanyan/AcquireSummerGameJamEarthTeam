@@ -14,13 +14,12 @@ namespace GameJamProject.SceneManager
         private Scene _lastScene;
         private SceneLoader _sceneLoader;
         private string _neverUnloadSceneName = "ManagerScene";
-        private Scene _neverUnloadScene;
         private IFadeStrategy _fadeStrategy;
         private readonly Stack<string> _sceneHistory = new Stack<string>();
 
-        [SerializeField] private Material fadeMaterial; // フェードマテリアル
+        [SerializeField] private Material _fadeMaterial; // フェードマテリアル
 
-        public Material FadeMaterial => fadeMaterial; // フェードマテリアルの公開プロパティ
+        public Material FadeMaterial => _fadeMaterial; // フェードマテリアルの公開プロパティ
 
         private async void Start()
         {
@@ -35,7 +34,6 @@ namespace GameJamProject.SceneManager
         private async UniTask LoadNeverUnloadSceneAsync()
         {
             await _sceneLoader.LoadSceneAsync(_neverUnloadSceneName, LoadSceneMode.Additive);
-            _neverUnloadScene = UnityEngine.SceneManagement.SceneManager.GetSceneByName(_neverUnloadSceneName);
         }
 
         public async UniTask LoadSceneWithFade(string sceneName, Material fadeMaterial, float fadeDuration,
