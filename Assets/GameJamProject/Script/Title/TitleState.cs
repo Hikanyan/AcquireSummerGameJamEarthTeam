@@ -6,11 +6,11 @@ namespace GameJamProject.Script.Title
 {
     public class TitleState : State
     {
-        public override void OnEnter()
+        public override async void OnEnter()
         {
             Debug.Log("Entered Title State");
             // タイトルシーンの初期化処理をここに追加
-            SceneManagement.SceneManager.Instance.LoadScene("Title");
+            await SceneManagement.SceneManager.Instance.LoadScene("TitleScene");
             AudioManager.Instance.PlayBGM("brightening");
         }
 

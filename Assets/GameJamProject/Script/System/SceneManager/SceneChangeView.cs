@@ -21,7 +21,7 @@ namespace GameJamProject.SceneManagement
 
         private static readonly int MaskTex = Shader.PropertyToID("_MaskTex");
 
-
+        public Material FadeMaterial => _fadeMaterial;
         private void Start()
         {
             _fadeMaterial.SetTexture(MaskTex, _maskTexture);
