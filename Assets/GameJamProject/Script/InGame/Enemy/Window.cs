@@ -12,6 +12,8 @@ public class Window : MonoBehaviour, IDamageable
     ScoreController _scoreController;
     PlayerHp _playerHp;
 
+    [SerializeField] GameObject _damageSprite = default;
+
     public void ChangeSprite(Sprite sprite)
     {
         _spriteRenderer.sprite = sprite;
@@ -24,6 +26,7 @@ public class Window : MonoBehaviour, IDamageable
     public void TakeDamage(int amount)
     {
         AudioManager.Instance.PlaySE("‘ÅŒ‚3");
+        Instantiate(_damageSprite, transform.position, Quaternion.identity);
 
         switch (WindowData.WindowSate)
         {

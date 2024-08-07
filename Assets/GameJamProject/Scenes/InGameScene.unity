@@ -416,6 +416,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &213847272
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -680,6 +681,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &289351435
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -983,6 +985,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &339810440
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1328,6 +1331,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &373936882
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1957,6 +1961,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &770695108
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3165,6 +3170,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &1405824521
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3413,6 +3419,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &1657852880
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3686,6 +3693,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &1806451533
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3818,6 +3826,7 @@ MonoBehaviour:
   WindowData:
     WindowSate: 0
     WindowSprite: {fileID: 0}
+  _damageSprite: {fileID: 1047871823208962022, guid: 83f334a4c2240ac4a825cd7967ab75ce, type: 3}
 --- !u!65 &1907240396
 BoxCollider:
   m_ObjectHideFlags: 0
