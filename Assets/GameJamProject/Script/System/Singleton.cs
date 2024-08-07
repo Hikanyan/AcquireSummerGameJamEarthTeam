@@ -23,9 +23,9 @@ namespace GameJamProject.System
                 else
                 {
                     // 既にあった時のデバッグログ 特に意味はない
-                    string typeName = typeof(T).Name;
-                    Debug.Log("[Singleton] " + typeName + " instance already created: " +
-                              _instance.gameObject.name);
+                    // string typeName = typeof(T).Name;
+                    // Debug.Log("[Singleton] " + typeName + " instance already created: " +
+                    //           _instance.gameObject.name);
                 }
 
                 return _instance;

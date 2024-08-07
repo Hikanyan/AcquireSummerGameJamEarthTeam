@@ -13,7 +13,7 @@ namespace GameJamProject.System
         protected override void OnAwake()
         {
             base.OnAwake();
-            _stateMachine = gameObject.AddComponent<StateMachine>();
+            _stateMachine = new StateMachine();
 
             // 初期状態をTitleStateに設定
             ChangeGameState(GameState.None);
@@ -27,19 +27,41 @@ namespace GameJamProject.System
 
         public void ChangeGameState(GameState newState)
         {
-            switch (newState)
+            // switch (newState)
+            // {
+            //     case GameState.Title:
+            //         _stateMachine.ChangeState(new TitleState());
+            //         break;
+            //     case GameState.InGame:
+            //         _stateMachine.ChangeState(new InGameState());
+            //         break;
+            //     case GameState.Result:
+            //         _stateMachine.ChangeState(new ResultState());
+            //         break;
+            //     case GameState.GameOver:
+            //         _stateMachine.ChangeState(new GameOverState());
+            //         break;
+            // }
+        }
+
+
+        public void ChangeGameStateByScene(string sceneName)
+        {
+            switch (sceneName)
             {
-                case GameState.Title:
-                    _stateMachine.ChangeState(new TitleState());
+                case "TitleScene":
+                    ChangeGameState(GameState.Title);
                     break;
-                case GameState.InGame:
-                    _stateMachine.ChangeState(new InGameState());
+                case "InGameScene":
+                    ChangeGameState(GameState.InGame);
                     break;
-                case GameState.Result:
-                    _stateMachine.ChangeState(new ResultState());
+                case "ResultScene":
+                    ChangeGameState(GameState.Result);
                     break;
-                case GameState.GameOver:
-                    _stateMachine.ChangeState(new GameOverState());
+                case "GameOverScene":
+                    ChangeGameState(GameState.GameOver);
+                    break;
+                default:
                     break;
             }
         }

@@ -3,7 +3,7 @@
 namespace GameJamProject.System
 {
     // 状態管理クラス
-    public class StateMachine : MonoBehaviour
+    public class StateMachine
     {
         private State _currentState;
 

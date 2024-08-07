@@ -106,6 +106,7 @@ namespace GameJamProject.Audio
 
         public void PlayBGM(string name, bool loop = true)
         {
+            Debug.Log($"Play BGM: {name}");
             if (_bgmClips.TryGetValue(name, out var clip))
             {
                 _bgmSource.clip = clip;
