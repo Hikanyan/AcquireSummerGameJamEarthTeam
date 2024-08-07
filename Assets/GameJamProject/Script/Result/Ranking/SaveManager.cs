@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using GameJamProject.System;
 using UnityEngine;
 
 [Serializable]
@@ -18,12 +19,12 @@ public class SaveDataItem
 
 
 /// <summary> jsonから読み込んでランキングを書き換えてjsonにデータの保存をするクラス </summary>
-public class SaveData : MonoBehaviour
+public class SaveManager : Singleton<SaveManager>
 {
     [SerializeField] private RankingData _rankingData = default;
     [SerializeField] private string _name = default;
     [SerializeField] private int _score = default;
-    
+    protected override bool UseDontDestroyOnLoad => true;
     private const string _filePath = "Assets/Resources/Scores.json";
     private const string _fileName = "Scores";
 
@@ -34,7 +35,7 @@ public class SaveData : MonoBehaviour
 
         // 読み込んだデータをlistに格納
         RankingList itemList = JsonUtility.FromJson<RankingList>(jsonData);
-        
+
         // 古いランキングデータを保存
         var oldRanking = new RankingList();
         oldRanking.rankingList = new List<SaveDataItem>(itemList.rankingList);
@@ -44,20 +45,20 @@ public class SaveData : MonoBehaviour
         SaveDataItem saveDataItem = new SaveDataItem();
         saveDataItem.name = _name;
         saveDataItem.score = _score;
-        
+
         itemList.rankingList.Add(saveDataItem);
         RankingList currentRanking = Rank(itemList);
-        
+
         // 新しいランキングデータを保存
         _rankingData.SaveCurrentRanking(currentRanking);
-        
+
         // リストをjsonに保存
         string jsonStr = JsonUtility.ToJson(itemList);
 
         StreamWriter writer = new StreamWriter(_filePath, false);
-        
+
         writer.Write(jsonStr);
-        
+
         writer.Flush();
         writer.Close();
     }
