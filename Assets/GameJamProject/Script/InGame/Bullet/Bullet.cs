@@ -16,12 +16,12 @@ public class Bullet : MonoBehaviour
         spriteRenderer.sprite = _sprite;
 
         Rigidbody rigidbody = GetComponent<Rigidbody>();
-        
+
         if (rigidbody.useGravity)
         {
             rigidbody.useGravity = false;
         }
-        
+
         Vector3 targetDir = Vector3.forward;
         CursorController cursorController = FindFirstObjectByType<CursorController>();
 
@@ -40,7 +40,8 @@ public class Bullet : MonoBehaviour
         if (damegeable is not null)
         {
             damegeable.TakeDamage(_damage);
-            gameObject.SetActive(false);
         }
+
+        gameObject.SetActive(false);
     }
 }

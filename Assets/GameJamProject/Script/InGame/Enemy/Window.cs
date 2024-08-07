@@ -2,24 +2,30 @@ using GameJamProject.Health;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Window : MonoBehaviour, IDamageable
 {
     public WindowData WindowData;
 
+    SpriteRenderer _spriteRenderer;
+
+    public void ChangeSprite(Sprite sprite)
+    {
+        _spriteRenderer.sprite = sprite;
+    }
+
     public void Heal(int amount)
     {
-        throw new System.NotImplementedException();
     }
 
     public void TakeDamage(int amount)
     {
-        throw new System.NotImplementedException();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }
 
