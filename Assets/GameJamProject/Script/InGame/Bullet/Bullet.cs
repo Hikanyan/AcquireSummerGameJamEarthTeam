@@ -10,7 +10,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private int _damage;
     [SerializeField] private float _bulletSpeed;
 
-    private void Start()
+    private void OnEnable()
     {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = _sprite;
@@ -40,6 +40,7 @@ public class Bullet : MonoBehaviour
         if (damegeable is not null)
         {
             damegeable.TakeDamage(_damage);
+            gameObject.SetActive(false);
         }
     }
 }
